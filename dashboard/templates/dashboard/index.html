@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+  <div class="container">
+    <aside>
+      <div class="top">
+        <div class="logo">
+          <h2> Sky<span class="danger"> Scraper</span> </h2>
+        </div>
+        <div class="close" id="close_btn">
+          <span class="material-symbols-sharp">
+            close
+          </span>
+        </div>
+      </div>
+      <div class="sidebar">
+        <a href="#">
+          <span class="material-symbols-sharp">grid_view </span>
+          <h3>Dashboard</h3>
+        </a>
+
+
+        <!-- <a href="#" class="active">
+          <span class="material-symbols-sharp">person_outline </span>
+          <h3>Customers</h3>
+        </a> -->
+        <a href="#">
+          <span class="material-symbols-sharp">insights </span>
+          <h3>Analytics</h3>
+        </a>
+        <!-- <a href="#">
+          <span class="material-symbols-sharp">mail_outline </span>
+          <h3>Messages</h3>
+          <span class="msg_count">14</span>
+        </a> -->
+
+        <a href="{% url 'logout' %}">
+          <span class="material-symbols-sharp">logout</span>
+          <h3>logout</h3>
+        </a>
+
+        <!-- <a href="#">
+          <span class="material-symbols-sharp">report_gmailerrorred </span>
+          <h3>Reports</h3>
+        </a> -->
+        <!-- <a href="#">
+          <span class="material-symbols-sharp">settings </span>
+          <h3>Settings</h3>
+        </a> -->
+        <!-- <a href="#">
+          <span class="material-symbols-sharp">add </span>
+          <h3>Add Website</h3>
+        </a> -->
+        <!-- <a href="#">
+          <span class="material-symbols-sharp">logout </span>
+          <h3>Logout</h3>
+        </a> -->
+      </div>
+    </aside>
+
+    <main>
+      <div class="insights">
+        <div class="sales">
+          <span class="material-symbols-sharp">trending_up</span>
+          <div class="middle">
+            <div class="left">
+              <h3>Websites scraped</h3>
+              <h1>{{ total_websites }}</h1>
+            </div>
+            <!-- <div class="progress">
+              <svg>
+                <circle r="30" cy="40" cx="40"></circle>
+              </svg>
+              <div class="number">
+                <p>100%</p>
+              </div>
+            </div> -->
+          </div>
+          <small>Last 24 Hours</small>
+        </div>
+
+        <div class="expenses">
+          <span class="material-symbols-sharp">directions_run</span>
+          <div class="middle">
+            <div class="left">
+              <h3>Total Articles Scraped</h3>
+              <h1>{{ total_articles_scraped }}</h1>
+            </div>
+            <!-- <div class="progress">
+              <svg>
+                <circle r="30" cy="40" cx="40"></circle>
+              </svg>
+              <div class="number">
+                <p>80%</p>
+              </div>
+            </div> -->
+          </div>
+          <small>Last 24 Hours</small>
+        </div>
+
+        <div class="income">
+          <span class="material-symbols-sharp">stacked_line_chart</span>
+          <div class="middle">
+            <div class="left">
+              <h3>Active Websites</h3>
+              <h1>{{ active_websites }}</h1>
+            </div>
+            <!-- <div class="progress">
+              <svg>
+                <circle r="30" cy="40" cx="40"></circle>
+              </svg>
+              <div class="number">
+                <p>80%</p>
+              </div>
+            </div> -->
+          </div>
+          <small>Last 24 Hours</small>
+        </div>
+      </div>
+
+
+      <div class="recent_order">
+        <h2>Website details</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Website name</th>
+              <th>Scraped articles in 24 hrs</th>
+              <th>Automation running</th>
+              <th>Source active</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for website in websites %}
+            <tr>
+              <td>{{ website.name }}</td>
+              <td>{{ website.scraped_articles_24hrs }}</td>
+              <td class="{% if website.automation_running %}true-value{% else %}false-value{% endif %}">
+                {{ website.automation_running }}
+              </td>
+              <td class="{% if website.source_active %}true-value{% else %}false-value{% endif %}">
+                {{ website.source_active }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <a href="#">Show All</a>
+      </div>
+
+
+    </main>
+
+    <div class="right">
+      <div class="top">
+        <button id="menu_bar">
+          <span class="material-symbols-sharp">menu</span>
+        </button>
+        <div class="theme-toggler">
+          <span class="material-symbols-sharp active">light_mode</span>
+          <span class="material-symbols-sharp">dark_mode</span>
+        </div>
+        <div class="profile">
+          <div class="info">
+            <p>{{user.username}}</p>
+            <small class="text-muted"></small>
+          </div>
+          <div class="profile-photo">
+            <span class="material-symbols-sharp">
+              account_circle
+              </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="recent_updates">
+        <h2>Recent Update</h2>
+        <div class="updates">
+           <div class="update">
+              <div class="profile-photo">
+                <span class="material-symbols-sharp">
+                  note_stack_add
+                  </span>
+              </div>
+             <div class="message">
+                <p><b>New Website:</b> Recently added {{ recent_added_website }}</p>
+             </div>
+           </div>
+           <div class="update">
+             <div class="profile-photo">
+              <span class="material-symbols-sharp">
+                automation
+                </span>
+             </div>
+             <div class="message">
+              <p><b>Automation Status:</b> 
+                  {% if automation_turned_off_website %}
+                      Automation running off for {{ automation_turned_off_website }}
+                  {% else %}
+                      Websites automation running smooth
+                  {% endif %}
+              </p>
+          </div>
+          <div class="update">
+           <div class="profile-photo">
+            <span class="material-symbols-sharp">
+              trending_up
+              </span>
+           </div>
+          <div class="message">
+             <p><b>Top Scraper:</b> {{ top_scraper_website }} scraped {{ top_scraper_articles }} articles in last 24 hrs</p>
+          </div>
+        </div>
+       </div>
+     </div>
+
+     <div class="sales-analytics">
+      <h2>Website Analytics</h2>
+      <div class="item online">
+          <div class="icon">
+              <span class="material-symbols-sharp"> language </span>
+          </div>
+          <div class="right_text">
+              <div class="info">
+                  <h3>Websites with False Automation</h3>
+                  <small class="text-muted">Last 24 Hours</small>
+              </div>
+              <h3>{{ false_automation_count }}</h3>
+          </div>
+      </div>
+      <div class="item online">
+          <div class="icon">
+              <span class="material-symbols-sharp"> source_notes </span>
+          </div>
+          <div class="right_text">
+              <div class="info">
+                  <h3>Zero Articles Active Automation</h3>
+                  <small class="text-muted">Last 24 Hours</small>
+              </div>
+              <h3>{{ zero_articles_active_automation }}</h3>
+          </div>
+      </div>
+  </div>
+  
+  
+      <!-- <div class="item onlion">
+          <div class="icon">
+              <span class="material-symbols-sharp">error</span>
+          </div>
+          <div class="right_text">
+              <div class="info">
+                  <h3>Longest Active Website</h3>
+                  <small class="text-muted">Most Continuous Activity</small>
+              </div>
+              <h3>{{ longest_active_website }}</h3>
+          </div>
+      </div> -->
+  </div>
+  
+
+      <!-- <div class="item add_product">
+        <div>
+          <span class="material-symbols-sharp">add</span>
+        </div>
+      </div>
+    </div> -->
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
